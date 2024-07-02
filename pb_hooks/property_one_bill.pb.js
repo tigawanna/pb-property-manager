@@ -47,7 +47,7 @@ IFNULL(curr.id,"blank") as curr_bill_id,
 IFNULL(prev.id,"blank") as prev_bill_id,
 
 sh.shop_number as shop_number,
-te.username as shop_name,
+te.name as shop_name,
 sh."order" as list_order,
 
 IFNULL(curr.month,0) as curr_month,
@@ -70,7 +70,7 @@ LEFT JOIN property_bills as curr
 ON curr.shop = sh.id AND curr.id = {:curr_bill}
 LEFT JOIN property_bills as prev
 ON prev.shop = sh.id AND prev.id = {:prev_bill}
-LEFT JOIN property_tenants te
+LEFT JOIN property_tenants_list te
 ON te.id = sh.tenant
 ORDER BY sh."order";
       `
