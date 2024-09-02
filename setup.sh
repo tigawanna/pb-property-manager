@@ -21,3 +21,4 @@ echo "============== pocketbase downloaded ================="
 # extract pocketbase
 unzip -o -d "${EXTRACT_DIR}" "${DOWNLOAD_DIR}/pocketbase.zip"
 
+
