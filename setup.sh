@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # PocketBase version
-VERSION="0.22.14"
+VERSION="0.22.20"
 # Download URL for the latest PocketBase release
 OLD_DOWNLOAD_URL="https://github.com/pocketbase/pocketbase/releases/download/v0.22.14/pocketbase_0.22.14_linux_amd64.zip"
 DOWNLOAD_URL="https://github.com/pocketbase/pocketbase/releases/download/v${VERSION}/pocketbase_${VERSION}_linux_amd64.zip"
