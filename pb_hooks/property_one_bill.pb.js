@@ -5,6 +5,36 @@ routerAdd(
   "/custom_property_one_bill",
   (c) => {
     try {
+      /**
+       * @type {Object} authRecord
+       */
+      const authrecord = c.get("authRecord");
+
+      if (!authrecord) {
+        return c.json(401, { error: "unauthorized" });
+      }
+      const staff = authrecord.get("staff");
+      if (!staff || staff.length === 0) {
+        return c.json(401, { error: "unauthorized" });
+      }
+
+      const isStaffResult = new DynamicModel({
+        id: "",
+      });
+      $app
+        .dao()
+        .db()
+        .select("id")
+        .from("property_staff_list")
+        .andWhere($dbx.like("id", staff))
+        .limit(1)
+        .one(isStaffResult);
+
+      // console.log("is user in staff list  collection == ",JSON.stringify(isStaffResult, null, 2));
+      if (!isStaffResult) {
+        return c.json(401, { error: "unauthorized" });
+      }
+
       function isParamEmpty(param, default_value) {
         if (param === "" || param === undefined || param === null) {
           return default_value;

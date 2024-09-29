@@ -5,6 +5,37 @@ routerAdd(
   "/custom_property_bills",
   (c) => {
     try {
+      /**
+       * @type {Object} authRecord
+       */
+      const authrecord = c.get("authRecord");
+ 
+      if (!authrecord) {
+        return c.json(401, { error: "unauthorized" });
+      }
+      const staff = authrecord.get("staff");
+      if(!staff || staff.length === 0) {
+        return c.json(401, { error: "unauthorized" });
+      }
+
+      const isStaffResult = new DynamicModel({
+          id: ""
+        })
+      $app
+        .dao()
+        .db()
+        .select("id")
+        .from("property_staff_list")
+        .andWhere($dbx.like("id", staff))
+        .limit(1)
+        .one(isStaffResult);
+
+      // console.log("is user in staff list  collection == ",JSON.stringify(isStaffResult, null, 2));
+      if (!isStaffResult) {
+        return c.json(401, { error: "unauthorized" });
+      }
+
+
       function isParamEmpty(param, default_value) {
         if (param === "" || param === undefined || param === null) {
           return default_value;
@@ -73,10 +104,10 @@ ORDER BY sh."order";
       `
         )
         ?.bind({
-          curr_year: isParamEmpty(c.queryParam("curr_year"),new Date().getFullYear()),
-          curr_month: isParamEmpty(c.queryParam("curr_month"),new Date().getMonth()),
-          prev_year: isParamEmpty(c.queryParam("prev_year"),new Date().getFullYear()),
-          prev_month: isParamEmpty(c.queryParam("prev_month"),new Date().getMonth()-1),
+          curr_year: isParamEmpty(c.queryParam("curr_year"), new Date().getFullYear()),
+          curr_month: isParamEmpty(c.queryParam("curr_month"), new Date().getMonth()),
+          prev_year: isParamEmpty(c.queryParam("prev_year"), new Date().getFullYear()),
+          prev_month: isParamEmpty(c.queryParam("prev_month"), new Date().getMonth() - 1),
         })
         ?.all(result); // throw an error on db failure
 
