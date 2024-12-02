@@ -34,7 +34,9 @@ function getPeriodBill() {
       shop: bill.get("shop"),
       elec_readings: bill.get("elec_readings"),
       water_readings: bill.get("water_readings"),
-      month: currentMonth,
+      // if current month is 12 then readinsg should be for month 11 and 10 was the latest readings we have so we'll carry forward all the 10 readings to 11
+      // in case there are no readings ( shop locked or something ) fro this month making sure prev value won't be undifined next month
+      month: previousMonth,
       year: currentYear,
     };
     console.log("============= new record ============= ", JSON.stringify(newRecord, null, 2));
