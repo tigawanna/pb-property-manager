@@ -8,7 +8,7 @@ cronAdd("bumpBillsEveryMonth", "5 0 1 * *", () => {
   const currentMonth = new Date().getMonth() + 1;
   const previousMonth = currentMonth === 12 ? 1 : currentMonth - 1;
   //  the previous yer will be the current month unless if the current month is december
-  const previousYear = currentMonth === 12 ? currentYear - 1 : currentYear;
+  const previousYear = currentMonth === 1 ? currentYear - 1 : currentYear;
 
 function getPeriodBill() {
     const records = $app.dao().findRecordsByFilter(
